@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
@@ -8,8 +9,9 @@ const convex = new ConvexReactClient(
     process.env.NEXT_PUBLIC_CONVEX_URL as string
 );
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+export default function Providers({ children }: { children: React.ReactNode }) {
     return (
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <ClerkProvider
             publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
         >
@@ -17,7 +19,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                 {children}
             </ConvexProviderWithClerk>
         </ClerkProvider>
+        </ThemeProvider>
     );
 };
 
-export default Providers;
